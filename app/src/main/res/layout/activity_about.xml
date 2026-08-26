@@ -123,15 +123,7 @@
                 android:orientation="vertical">
 
                 <include
-                    android:id="@+id/whatsNewRow"
-                    layout="@layout/about_row_item" />
-
-                <include
                     android:id="@+id/appFeaturesRow"
-                    layout="@layout/about_row_item" />
-
-                <include
-                    android:id="@+id/privacyRow"
                     layout="@layout/about_row_item" />
 
                 <include
