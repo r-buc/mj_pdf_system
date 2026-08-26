@@ -131,10 +131,6 @@
                     layout="@layout/about_row_item" />
 
                 <include
-                    android:id="@+id/replayIntroRow"
-                    layout="@layout/about_row_item" />
-
-                <include
                     android:id="@+id/privacyRow"
                     layout="@layout/about_row_item" />
 

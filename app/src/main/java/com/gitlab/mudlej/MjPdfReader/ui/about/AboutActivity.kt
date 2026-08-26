@@ -19,7 +19,6 @@ import com.gitlab.mudlej.MjPdfReader.core.ui.copyToClipboard
 import com.gitlab.mudlej.MjPdfReader.core.ui.setupScreenChrome
 import com.gitlab.mudlej.MjPdfReader.databinding.AboutRowItemBinding
 import com.gitlab.mudlej.MjPdfReader.databinding.ActivityAboutBinding
-import com.gitlab.mudlej.MjPdfReader.ui.intro.MainIntroActivity
 import com.google.android.material.snackbar.Snackbar
 
 class AboutActivity : AppCompatActivity() {
@@ -51,9 +50,6 @@ class AboutActivity : AppCompatActivity() {
         }
         bindRow(binding.appFeaturesRow, R.drawable.ic_awesome, R.string.features_title) {
             startActivity(navIntent(applicationContext, AppFeaturesActivity::class.java))
-        }
-        bindRow(binding.replayIntroRow, R.drawable.replay_icon, R.string.intro) {
-            startActivity(navIntent(applicationContext, MainIntroActivity::class.java))
         }
         bindRow(binding.privacyRow, R.drawable.privacy_icon, R.string.privacy) {
             PrivacyInfoDialog().show(supportFragmentManager, PrivacyInfoDialog.TAG)
@@ -131,7 +127,7 @@ class AboutActivity : AppCompatActivity() {
         private const val AUTHOR_SITE_NAME = "mudlej.com"
         private const val OFFICIAL_SITE_URL = "https://mudlej.com/projects/mj-pdf/"
         private const val AUTHOR_SITE_URL = "https://mudlej.com"
-        private const val REPO_URL = "https://gitlab.com/mudlej_android/mj_pdf_reader"
+        private const val REPO_URL = "https://github.com/IsHacker003/mj_pdf_system"
         private const val GITLAB_URL = "https://gitlab.com/mudlej"
         private const val GITHUB_URL = "https://github.com/mudlej"
         private const val LICENSE_URL = "https://gitlab.com/mudlej_android/mj_pdf_reader/-/blob/main/LICENSE"
