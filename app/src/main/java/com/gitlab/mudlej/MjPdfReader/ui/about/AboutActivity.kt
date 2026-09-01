@@ -45,14 +45,8 @@ class AboutActivity : AppCompatActivity() {
     }
 
     private fun bindRows() {
-        bindRow(binding.whatsNewRow, R.drawable.log_icon, R.string.whats_new_title) {
-            startActivity(navIntent(applicationContext, WhatsNewActivity::class.java))
-        }
         bindRow(binding.appFeaturesRow, R.drawable.ic_awesome, R.string.features_title) {
             startActivity(navIntent(applicationContext, AppFeaturesActivity::class.java))
-        }
-        bindRow(binding.privacyRow, R.drawable.privacy_icon, R.string.privacy) {
-            PrivacyInfoDialog().show(supportFragmentManager, PrivacyInfoDialog.TAG)
         }
         bindRow(binding.licenseRow, R.drawable.license_icon, R.string.myLicense) {
             openLink(LICENSE_URL)
