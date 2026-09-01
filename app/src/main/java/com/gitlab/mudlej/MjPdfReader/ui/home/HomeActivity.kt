@@ -39,7 +39,6 @@ import com.gitlab.mudlej.MjPdfReader.ui.about.WhatsNewActivity
 import com.gitlab.mudlej.MjPdfReader.ui.about.WhatsNewRelease
 import com.gitlab.mudlej.MjPdfReader.ui.about.whatsNewReleaseForUpgrade
 import com.gitlab.mudlej.MjPdfReader.ui.reader.MainActivity
-import com.gitlab.mudlej.MjPdfReader.ui.intro.MainIntroActivity
 import com.gitlab.mudlej.MjPdfReader.ui.settings.SettingsActivity
 import com.gitlab.mudlej.MjPdfReader.ui.settings.SettingsPage
 import com.gitlab.mudlej.MjPdfReader.core.io.DocumentRemover
@@ -130,7 +129,6 @@ class HomeActivity : AppCompatActivity(), HomeItemFunctions {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         pref = Preferences(PreferenceManager.getDefaultSharedPreferences(this))
-        val launchIntro = launchIntroOnFirstInstall()
         if (redirectToReaderIfHomeDisabled()) {
             return
         }
@@ -144,19 +142,7 @@ class HomeActivity : AppCompatActivity(), HomeItemFunctions {
         setupMenuAndNavigation()
         setupOpenFab()
         observeLibraryIndex()
-        maybeShowWhatsNew(launchIntro)
         handleRelocateIntent(intent)
-    }
-
-    private fun launchIntroOnFirstInstall(): Boolean {
-        val launchIntro = pref.getFirstInstall()
-        if (launchIntro) {
-            pref.setFirstInstall(false)
-            pref.setShowFeaturesDialog(true)
-            pref.setLastSeenVersionCode(BuildConfig.VERSION_CODE)
-            introLauncher.launch(Intent(this, MainIntroActivity::class.java))
-        }
-        return launchIntro
     }
 
     private fun redirectToReaderIfHomeDisabled(): Boolean {
