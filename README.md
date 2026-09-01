@@ -4,3 +4,4 @@ Changes made:<br>
 1. Removed launcher icon and internet permission
 2. Removed intro
 3. "High quality rendering" is turned on by default
+4. Removed temporary file copying (it unnecessarily copied PDFs into `/storage/emulated/0/Documents/MJ PDF`)

@@ -454,42 +454,8 @@ class ReaderComposition(
         readingDirectionResolver,
         documentLoader,
     )
-    val temporaryCopyImporter: TemporaryCopyImporter = TemporaryCopyImporter(
-        activity.applicationContext,
-        pdfRepository,
-        historyPolicy,
-        pref,
-        { doc.uri to doc.name },
-        backgroundSaveScope,
-        { fileHash, messageRes ->
-            binding.root.post {
-                if (!activity.isFinishing && !activity.isDestroyed && doc.fileHash == fileHash) {
-                    AppSnackbar.make(binding.root, messageRes, Snackbar.LENGTH_SHORT).show()
-                }
-            }
-        },
-        { request -> showCopyConsent(request) },
-    )
 
     private val readerPermissionManager = PermissionManager(activity)
-
-    private fun showCopyConsent(request: CopyConsentRequest) {
-        binding.root.post {
-            if (activity.isFinishing || activity.isDestroyed || doc.fileHash != request.fileHash) {
-                return@post
-            }
-            CopyConsentDialog.show(
-                activity,
-                request,
-                onGrantAccess = { readerPermissionManager.requestFullAccess() },
-                onCopy = {
-                    backgroundSaveScope.launch {
-                        temporaryCopyImporter.performCopy(request.fileHash, request.uri, request.name)
-                    }
-                },
-            )
-        }
-    }
 
     private var historyNavState = false to false
 
@@ -547,7 +513,6 @@ class ReaderComposition(
     }
 
     private fun subscribeDocumentListeners() {
-        documentLoader.subscribe(temporaryCopyImporter)
         documentLoader.subscribe(object : DocumentListener {
             override fun onDocumentReset() {
                 autoScrollSpeedStore.flushPendingSave()
