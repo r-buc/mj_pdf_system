@@ -1,0 +1,77 @@
+name: Build armeabi-v7a APK
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/build-armeabi-v7a-apk.yml"
+      - "AndroidPdfViewer/**"
+      - "PdfiumAndroid/**"
+      - "app/**"
+      - "build.gradle"
+      - "build_dependencies.py"
+      - "build_dependencies/**"
+      - "gradle.properties"
+      - "gradle/**"
+      - "mj-wrapper.gradle"
+      - "settings.gradle"
+  push:
+    paths:
+      - ".github/workflows/build-armeabi-v7a-apk.yml"
+      - "AndroidPdfViewer/**"
+      - "PdfiumAndroid/**"
+      - "app/**"
+      - "build.gradle"
+      - "build_dependencies.py"
+      - "build_dependencies/**"
+      - "gradle.properties"
+      - "gradle/**"
+      - "mj-wrapper.gradle"
+      - "settings.gradle"
+
+permissions:
+  contents: read
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: gradle
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android SDK components
+        run: sdkmanager --install "platforms;android-36" "build-tools;36.0.0" "platform-tools" "ndk;30.0.14904198"
+
+      - name: Install Python dependencies
+        run: python3 -m pip install --upgrade requests
+
+      - name: Configure local.properties
+        run: printf "sdk.dir=%s\n" "$ANDROID_SDK_ROOT" > local.properties
+
+      - name: Build native dependencies for armeabi-v7a
+        env:
+          ANDROID_NDK: ${{ env.ANDROID_SDK_ROOT }}/ndk/30.0.14904198
+        run: python3 build_dependencies.py --pdfium prebuilt --abi armeabi-v7a
+
+      - name: Build release APK for armeabi-v7a
+        run: ./gradlew --no-daemon :app:assembleRelease -PfdroidAbi=armeabi-v7a
+
+      - name: Upload armeabi-v7a APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: mj-pdf-armeabi-v7a-release-apk
+          path: |
+            app/build/outputs/apk/release/*armeabi-v7a*release*.apk
+            app/build/outputs/apk/release/output-metadata.json
+          if-no-files-found: error
