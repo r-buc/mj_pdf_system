@@ -16,6 +16,8 @@ on:
       - "mj-wrapper.gradle"
       - "settings.gradle"
   push:
+    branches:
+      - main
     paths:
       - ".github/workflows/build-armeabi-v7a-apk.yml"
       - "AndroidPdfViewer/**"
